@@ -11,15 +11,10 @@ import ObjectMapper
 
 class Station: Mappable {
     var code: Int?
+    var groupCode: Int?
     var name: String?
     var latitude: Double?
     var longitude: Double?
-    
-    init(name: String, latitude: Double, longitude: Double) {
-        self.name = name
-        self.latitude = latitude
-        self.longitude = longitude
-    }
     
     init() {
     }
@@ -29,6 +24,7 @@ class Station: Mappable {
     
     func mapping(map: Map) {
         self.code <- map["station_cd"]
+        self.groupCode <- map["station_g_cd"]
         self.name <- map["station_name"]
         self.longitude <- map["lon"]
         self.latitude <- map["lat"]

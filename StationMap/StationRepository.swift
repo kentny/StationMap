@@ -11,7 +11,7 @@ import ObjectMapper
 
 class StationRepository: NSObject {
     
-    class func stations(lineCode: String, callback: (([Station]?) -> Void)? ) {
+    class func stations(lineCode: Int, callback: (([Station]?) -> Void)? ) {
         let url = URL(string: "http://www.ekidata.jp/api/l/\(lineCode).json")
         let request = URLRequest(url: url!)
         let session = URLSession.shared
@@ -34,4 +34,29 @@ class StationRepository: NSObject {
         }.resume()
         
     }
+    
+    class func stationGroup(stationCode: Int, callback: ((StationGroup?) -> Void)? ) {
+        let url = URL(string: "http://www.ekidata.jp/api/g/\(stationCode).json")
+        let request = URLRequest(url: url!)
+        let session = URLSession.shared
+        session.dataTask(with: request) { (data, response, error) in
+            DispatchQueue.main.async {  // メインスレッドに渡す
+                if error == nil, let data = data, let _ = response as? HTTPURLResponse {
+                    
+                    // 応答データをパースしてJSONに整形する
+                    let result = String(data: data, encoding: String.Encoding.utf8) ?? "NO DATA"
+                    let json = String(result.split(separator: "\n")[1].split(separator: "=")[1])
+//                    let line: Line? = Mapper<Line>().map(JSONString: json)
+                    let stationGroup: StationGroup? = Mapper<StationGroup>().map(JSONString: json)
+                    
+                    // 駅グループ一覧を返す
+                    callback?(stationGroup)
+                } else {
+                    callback?(nil)
+                }
+            }
+        }.resume()
+        
+    }
+
 }

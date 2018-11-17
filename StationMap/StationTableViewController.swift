@@ -9,7 +9,7 @@
 import UIKit
 
 class StationViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
-    let yamanoteLineCode = "11302"
+    let yamanoteLineCode: Int = 11302
 
     @IBOutlet weak var tableView: UITableView!
     
