@@ -11,7 +11,7 @@ import ObjectMapper
 
 class StationRepository: NSObject {
     
-    class func stations(lineCode: Int, callback: (([Station]?) -> Void)? ) {
+    class func line(lineCode: Int, callback: ((Line?) -> Void)? ) {
         let url = URL(string: "http://www.ekidata.jp/api/l/\(lineCode).json")
         let request = URLRequest(url: url!)
         let session = URLSession.shared
@@ -26,7 +26,7 @@ class StationRepository: NSObject {
                     let line: Line? = Mapper<Line>().map(JSONString: json)
                     
                     // 駅一覧を返す
-                    callback?(line?.stations)
+                    callback?(line)
                 } else {
                     callback?(nil)
                 }
@@ -46,7 +46,6 @@ class StationRepository: NSObject {
                     // 応答データをパースしてJSONに整形する
                     let result = String(data: data, encoding: String.Encoding.utf8) ?? "NO DATA"
                     let json = String(result.split(separator: "\n")[1].split(separator: "=")[1])
-//                    let line: Line? = Mapper<Line>().map(JSONString: json)
                     let stationGroup: StationGroup? = Mapper<StationGroup>().map(JSONString: json)
                     
                     // 駅グループ一覧を返す

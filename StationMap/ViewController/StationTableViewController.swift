@@ -13,7 +13,7 @@ class StationViewController: UIViewController, UITableViewDelegate, UITableViewD
 
     @IBOutlet weak var tableView: UITableView!
     
-    var stations: [Station]?
+    var line: Line?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,10 +22,10 @@ class StationViewController: UIViewController, UITableViewDelegate, UITableViewD
         self.tableView.dataSource = self
         
         
-        StationRepository.stations(lineCode: self.yamanoteLineCode,
-                                   callback: { stations in
+        StationRepository.line(lineCode: self.yamanoteLineCode,
+                                   callback: { line in
                                     
-                                    self.stations = stations
+                                    self.line = line
                                     self.tableView.reloadData()
                                     
         })
@@ -33,27 +33,18 @@ class StationViewController: UIViewController, UITableViewDelegate, UITableViewD
 
     // MARK: - Table view data source
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.stations?.count ?? 0
+        return self.line?.stations?.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 80
     }
     
-//    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-//        return nil
-//    }
-//
-//    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-//
-//        return 0
-//    }
-    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell: UITableViewCell = tableView.dequeueReusableCell(withIdentifier: "StationCell", for: indexPath)
         
-        guard let stations = self.stations else {
+        guard let stations = self.line?.stations else {
             return cell
         }
         
@@ -63,7 +54,7 @@ class StationViewController: UIViewController, UITableViewDelegate, UITableViewD
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let stations = self.stations else {
+        guard let stations = self.line?.stations else {
             return
         }
         
@@ -80,7 +71,8 @@ class StationViewController: UIViewController, UITableViewDelegate, UITableViewD
         
         if id == "ToMap" {
             let mapVC = segue.destination as? MapViewController
-            mapVC?.station = sender as? Station
+            mapVC?.line = self.line!
+            mapVC?.selectedStation = sender as? Station
         }
     }
 
