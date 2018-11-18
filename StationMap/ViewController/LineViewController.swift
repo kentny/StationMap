@@ -40,8 +40,8 @@ class LineViewController: UIViewController, LineTableDelegate {
         StationRepository.line(lineCode: lineCode, callback: { line in
             
             if let navigationController = self.presentingViewController as? UINavigationController {
-                if let mapVC = navigationController.topViewController as? MapViewController, let stations = line?.stations {
-                    mapVC.showAnnotations(stations: stations)
+                if let mapVC = navigationController.topViewController as? MapViewController, let line = line {
+                    mapVC.showAnnotations(line: line)
                 }
             }
             self.dismiss(animated: true, completion: nil)

@@ -11,6 +11,7 @@ import MapKit
 
 class StationPointAnnotation: MKPointAnnotation {
     var isSelected = false
+    var station: Station?
 }
 
 class MapViewController: UIViewController, MKMapViewDelegate {
@@ -34,14 +35,10 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         // 表示タイプを航空写真と地図のハイブリッドに設定
         mapView.mapType = .standard
 
-        if let stations = self.line.stations {
-            self.showAnnotations(stations: stations)
+        if let line = self.line {
+            self.showAnnotations(line: line)
         }
         
-//        StationRepository.stationGroup(stationCode: self.selectedStation.code!, callback: { stationGroup in
-//            print(stationGroup)
-//            self.stationGroup = stationGroup
-//        })
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -51,12 +48,20 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     }
     
     // 指定された駅全てにピンを打つ
-    func showAnnotations(stations: [Station]) {
+    func showAnnotations(line: Line) {
+        
+        guard let stations = line.stations else {
+            return
+        }
+        
+        // 表示されている路線情報を更新
+        self.line = line
+        
         // 全てのピンを削除
         self.mapView.removeAnnotations(self.mapView.annotations)
         
         for station in stations {
-            let isSelected = (station.code! == self.selectedStation.code!)
+            let isSelected = (station.groupCode! == self.selectedStation.groupCode!)
             
             let location = CLLocationCoordinate2DMake(station.latitude!,
                                                       station.longitude!)
@@ -71,7 +76,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
                 self.mapView.setRegion(region, animated: true)
                 
             }
-            self.markStation(name: station.name, location: location, isSelected: isSelected)
+            self.markStation(station: station, location: location, isSelected: isSelected)
             
         }
 
@@ -95,15 +100,13 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         }
     }
     
-    func markStation(name: String?, location: CLLocationCoordinate2D, isSelected: Bool) {
+    func markStation(station: Station, location: CLLocationCoordinate2D, isSelected: Bool) {
         let annotation = StationPointAnnotation()
         
         annotation.coordinate = location
         annotation.isSelected = isSelected
-        
-        if name != nil {
-            annotation.title = name
-        }
+        annotation.station = station
+        annotation.title = station.name ?? ""
         
         self.mapView.addAnnotation(annotation)
         if isSelected {
@@ -137,6 +140,8 @@ class MapViewController: UIViewController, MKMapViewDelegate {
             pinView.pinTintColor = UIColor.blue
         }
         
+        // pinViewと駅コードを結びつける
+        pinView.tag = stationAnnotation.station?.groupCode ?? 0
         
         //左ボタンをアノテーションビューに追加する。
         let button = UIButton()
@@ -158,13 +163,15 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         }
         
         pinView.pinTintColor = .red
-//        for annotation in mapView.selectedAnnotations {
-//            mapView.deselectAnnotation(annotation, animated: true)
-//        }
-//
-//        if let annotation = view.annotation {
-//            mapView.selectAnnotation(annotation, animated: true)
-//        }
+
+        // selectedStationの更新
+        if let stations = self.line.stations {
+            // 結びつけた駅コードを引き出す
+            let groupCode = pinView.tag
+            
+            // 駅コードに一致するものを選択中駅とする
+            self.selectedStation = stations.filter({ $0.groupCode! == groupCode })[0]
+        }
     }
     
     func mapView(_ mapView: MKMapView, didDeselect view: MKAnnotationView) {
