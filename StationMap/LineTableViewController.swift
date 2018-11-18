@@ -55,7 +55,7 @@ class LineTableViewController: UIViewController, UITableViewDelegate, UITableVie
         }
         
         // 通知
-        self.delegate?.selectedLine(line: lines[indexPath.row].code!)
+        self.delegate?.selectedLine(lineCode: lines[indexPath.row].code!)
     }
 
 

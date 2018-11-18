@@ -11,6 +11,7 @@ import UIKit
 class LineViewController: UIViewController, LineTableDelegate {
 
     @IBOutlet weak var containerView: UIView!
+    var lines: [Line]?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,6 +30,7 @@ class LineViewController: UIViewController, LineTableDelegate {
         
         if id == "ToLineTable" {
             let vc = segue.destination as? LineTableViewController
+            vc?.lines = self.lines
             vc?.delegate = self
         }
     }
@@ -37,9 +39,19 @@ class LineViewController: UIViewController, LineTableDelegate {
         
         StationRepository.line(lineCode: lineCode, callback: { line in
             
-            let vc = self.presentingViewController as? MapViewController
-            vc?.showAnnotations(stations: line.stations)
+            if let navigationController = self.presentingViewController as? UINavigationController {
+                if let mapVC = navigationController.topViewController as? MapViewController, let stations = line?.stations {
+                    mapVC.showAnnotations(stations: stations)
+                }
+            }
+            self.dismiss(animated: true, completion: nil)
+
         })
         
+    }
+    
+    @IBAction func cancelTapped(_ sender: UIBarButtonItem) {
+        
+        self.dismiss(animated: true, completion: nil)
     }
 }
