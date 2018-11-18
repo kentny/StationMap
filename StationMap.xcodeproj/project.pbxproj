@@ -21,6 +21,8 @@
 		9674321F219EFF8100A536D9 /* Line.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9674321E219EFF8100A536D9 /* Line.swift */; };
 		96743221219F0C4200A536D9 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96743220219F0C4200A536D9 /* MapViewController.swift */; };
 		96802D6D21A01C6F009EC379 /* Group.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96802D6C21A01C6F009EC379 /* Group.swift */; };
+		96802D6F21A1544E009EC379 /* LineTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96802D6E21A1544E009EC379 /* LineTableViewController.swift */; };
+		96802D7121A156BE009EC379 /* LineViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96802D7021A156BE009EC379 /* LineViewController.swift */; };
 		AB7220A6EB4E95A91CE2631A /* Pods_StationMap.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E2DCE2DA642E034FB41F285 /* Pods_StationMap.framework */; };
 /* End PBXBuildFile section */
 
@@ -67,6 +69,8 @@
 		9674321E219EFF8100A536D9 /* Line.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Line.swift; sourceTree = "<group>"; };
 		96743220219F0C4200A536D9 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		96802D6C21A01C6F009EC379 /* Group.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Group.swift; sourceTree = "<group>"; };
+		96802D6E21A1544E009EC379 /* LineTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineTableViewController.swift; sourceTree = "<group>"; };
+		96802D7021A156BE009EC379 /* LineViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineViewController.swift; sourceTree = "<group>"; };
 		D3C0516BB1EF67AA1F5A21EC /* Pods-StationMap.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StationMap.debug.xcconfig"; path = "Pods/Target Support Files/Pods-StationMap/Pods-StationMap.debug.xcconfig"; sourceTree = "<group>"; };
 		F103DBB42990837A2749391F /* Pods-StationMap.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StationMap.release.xcconfig"; path = "Pods/Target Support Files/Pods-StationMap/Pods-StationMap.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -136,6 +140,8 @@
 			children = (
 				967431EC219D83F000A536D9 /* AppDelegate.swift */,
 				967431EE219D83F000A536D9 /* StationTableViewController.swift */,
+				96802D6E21A1544E009EC379 /* LineTableViewController.swift */,
+				96802D7021A156BE009EC379 /* LineViewController.swift */,
 				96743220219F0C4200A536D9 /* MapViewController.swift */,
 				9674321A219D861400A536D9 /* StationRepository.swift */,
 				9674321C219D886B00A536D9 /* Staion.swift */,
@@ -477,6 +483,8 @@
 				967431ED219D83F000A536D9 /* AppDelegate.swift in Sources */,
 				9674321B219D861400A536D9 /* StationRepository.swift in Sources */,
 				9674321F219EFF8100A536D9 /* Line.swift in Sources */,
+				96802D6F21A1544E009EC379 /* LineTableViewController.swift in Sources */,
+				96802D7121A156BE009EC379 /* LineViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
